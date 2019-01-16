@@ -1,0 +1,28 @@
+{
+  "map": {
+    "documentRoot": "Root",
+    "collectionRoot": "Element",
+    "fields": [
+      {
+        "name": "Year",
+        "columns": ["year"],
+        "type": "string"
+      }, {
+        "name": "FullName",
+        "columns": ["first_name", "last_name"],
+        "type": "string",
+        "concatenation": " "
+      }, {
+        "name": "FirstName",
+        "columns": ["names"],
+        "type": "string",
+        "afterFilters": [
+          {
+            "name": "getWord",
+            "args": { "word": 0 }
+          }
+        ]
+      }
+    ]
+  }
+}
