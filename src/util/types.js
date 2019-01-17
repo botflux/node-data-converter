@@ -17,7 +17,7 @@ const allowedTypes = [
  */
 const typeIsValid = (t) => {
     return allowedTypes.reduce((prev, curr) => {
-        if (curr === t) return true
+        if (curr === t.toLowerCase()) return true
 
         return prev
     }, false)
@@ -30,7 +30,7 @@ const typeIsValid = (t) => {
  * @param {String} t Type as a string
  */
 const checkType = (v, t) => {
-    return t === typeof v
+    return t.toLowerCase() === typeof v
 }
 
 module.exports = {

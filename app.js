@@ -62,7 +62,6 @@ fileUtil.readCSV(inputPath, data => {
          * Check if the type is known.
          */
         if (!typesUtil.typeIsValid(type)) {
-            //throw `The given type ${type} is undefined.`
             messageBag.getMessageBag().addMessage(
                 new messageBag.Message({
                     text: `The given type ${type} is undefined.`,
@@ -75,8 +74,12 @@ fileUtil.readCSV(inputPath, data => {
          * Check if the result type match the map field type.
          */
         if (!typesUtil.checkType(afterFiltered, type)) {
-            //throw `The result type of ${name} at the row ${rowIndex}; The type expected for this field is ${type} but ${typeof afterFiltered} given.`
-            messageBag.getMessageBag().addMessage (new messageBag.Message({ text: `The result type of ${name} at the row ${rowIndex}; The type expected for this field is ${type} but ${typeof afterFiltered} given.`, type: messageBag.MESSAGE_WARNING }))
+            messageBag.getMessageBag().addMessage (
+                new messageBag.Message({ 
+                    text: `The result type of ${name} at the row ${rowIndex}; The type expected for this field is ${type} but ${typeof afterFiltered} given.`, 
+                    type: messageBag.MESSAGE_WARNING 
+                })
+            )
         }
 
         let o = { [name]: afterFiltered }
