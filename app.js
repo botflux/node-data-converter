@@ -9,6 +9,8 @@
 const argsUtil = require('./src/util/args')
 const fileUtil = require('./src/util/files')
 const mapsUtil = require('./src/util/maps')
+const typesUtil = require('./src/util/types')
+const messageBag = require('./src/messages/message-bag')
 
 const args = argsUtil.getArguments()
 
@@ -21,8 +23,6 @@ const mapJson = fileUtil.getFileContent(mapPath)
 const map = JSON.parse(mapJson).map
 
 // TODO: Check map integrity
-
-console.log(map)
 
 const { fields = [] } = map
 
@@ -57,12 +57,29 @@ fileUtil.readCSV(inputPath, data => {
         }, x) : x
 
         // TODO: CHECK TYPE
-        if (type !== typeof afterFiltered) {
-            throw `The result type of ${name} at the row ${rowIndex}; The type expected for this field is ${type} but ${typeof afterFiltered} given.`
+
+        /**
+         * Check if the type is known.
+         */
+        if (!typesUtil.typeIsValid(type)) {
+            //throw `The given type ${type} is undefined.`
+            messageBag.getMessageBag().addMessage(
+                new messageBag.Message({
+                    text: `The given type ${type} is undefined.`,
+                    type: messageBag.MESSAGE_ERROR
+                })
+            )
+        }
+        
+        /**
+         * Check if the result type match the map field type.
+         */
+        if (!typesUtil.checkType(afterFiltered, type)) {
+            //throw `The result type of ${name} at the row ${rowIndex}; The type expected for this field is ${type} but ${typeof afterFiltered} given.`
+            messageBag.getMessageBag().addMessage (new messageBag.Message({ text: `The result type of ${name} at the row ${rowIndex}; The type expected for this field is ${type} but ${typeof afterFiltered} given.`, type: messageBag.MESSAGE_WARNING }))
         }
 
-
-        let o = { [name]: afterFiltered}
+        let o = { [name]: afterFiltered }
 
         rowIndex ++;
         return {
@@ -72,7 +89,10 @@ fileUtil.readCSV(inputPath, data => {
     }, {})
 
     a = [...a, ...[row]]
-}, () => console.log(a))
+}, () => {
+    console.log(a)
+    messageBag.getMessageBag().showMessages()
+})
 
 
 

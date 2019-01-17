@@ -15,7 +15,7 @@
       }, {
         "name": "FirstName",
         "columns": ["names"],
-        "type": "string",
+        "type": "efggr",
         "afterFilters": [
           {
             "name": "getWord",
