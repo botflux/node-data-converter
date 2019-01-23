@@ -58,14 +58,17 @@ describe('args util', () => {
     })
 
     describe('getArguments', () => {
+
+        const fakeArguments = [
+            'node',
+            'path/to/file',
+            'hello=world'
+        ]
+
         describe('happy path', () => {
             it ('should returns parsed arguments', () => {
                 assert.strictEqual(
-                    JSON.stringify(argsUtil.getArguments([
-                        'node',
-                        'path/to/file',
-                        'hello=world'
-                    ])),
+                    JSON.stringify(argsUtil.getArguments(fakeArguments)),
                     JSON.stringify({
                         hello: 'world'
                     })
@@ -75,11 +78,7 @@ describe('args util', () => {
         describe('when passing skip option', () => {
             it('should returns all arguments', () => {
                 assert.strictEqual(
-                    JSON.stringify(argsUtil.getArguments([
-                        'node',
-                        'path/to/file',
-                        'hello=world'
-                    ], { skip: 0 })),
+                    JSON.stringify(argsUtil.getArguments(fakeArguments, { skip: 0 })),
                     JSON.stringify({
                         node: null,
                         "path/to/file": null,
@@ -88,5 +87,7 @@ describe('args util', () => {
                 )
             })
         })
+
+
     })
 })
