@@ -6,7 +6,7 @@
  */
 const parseArgument = (str) => {
     const split = str.split('=')
-    return { [split[0]]: split[1] }
+    return { [split[0]]: split[1] || null }
 }
 
 /**
@@ -27,5 +27,6 @@ const getArguments = (argv = process.argv, { skip = 2 } = {}) => {
 }
 
 module.exports = {
-    getArguments
+    getArguments,
+    parseArgument
 }

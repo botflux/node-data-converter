@@ -1,5 +1,6 @@
 const assert = require('assert')
 const typesUtil = require('../src/util/types')
+const argsUtil = require('../src/util/args')
 
 describe('types util', () => {
 
@@ -25,4 +26,67 @@ describe('types util', () => {
 
     })
     
+})
+
+describe('args util', () => {
+    describe ('parseArgument', () => {
+        describe('happy path', () => {
+            it('should returns arguments as an object', () => {
+                assert.equal(
+                    JSON.stringify(
+                        argsUtil.parseArgument('hello=world')
+                    ), 
+                    JSON.stringify(
+                        { hello: "world" }
+                    )
+                )
+            })
+        })
+
+        describe('when argument are not separated by "="', () => {
+            it('should returns arguments as an object with null value', () => {
+                assert.strictEqual(
+                    JSON.stringify(
+                        argsUtil.parseArgument('hello')
+                    ),
+                    JSON.stringify({
+                        hello: null
+                    })
+                )
+            })
+        })
+    })
+
+    describe('getArguments', () => {
+        describe('happy path', () => {
+            it ('should returns parsed arguments', () => {
+                assert.strictEqual(
+                    JSON.stringify(argsUtil.getArguments([
+                        'node',
+                        'path/to/file',
+                        'hello=world'
+                    ])),
+                    JSON.stringify({
+                        hello: 'world'
+                    })
+                )
+            })
+        }),
+        describe('when passing skip option', () => {
+            it('should returns all arguments', () => {
+                assert.strictEqual(
+                    JSON.stringify(argsUtil.getArguments([
+                        'node',
+                        'path/to/file',
+                        'hello=world'
+                    ], { skip: 0 })),
+                    JSON.stringify({
+                        node: null,
+                        "path/to/file": null,
+                        hello: "world"
+                    })
+                )
+            })
+        })
+    })
 })
