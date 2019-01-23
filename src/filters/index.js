@@ -10,7 +10,8 @@
  * @returns {String} The string processed
  */
 const getWord = (str, { word = 0 }) => {
-    return str.split(' ')[word]
+    const split = str.split(' ')
+    return (word >= 0 && word < split.length) ? split[word] : ''
 }
 
 /**

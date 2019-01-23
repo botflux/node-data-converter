@@ -6,7 +6,6 @@ const { getWord, trim } = require('../src/filters')
 const filesUtil = require('../src/util/files')
 
 describe('types util', () => {
-
     describe('checkType', () => {
         describe('happy path', () => {
             it('should return true', () => {
@@ -20,7 +19,7 @@ describe('types util', () => {
             })
         })
 
-        describe('whn it receive a number as a string', () => {
+        describe('when it receive a number as a string', () => {
             it ('should returns true', () => {
                 assert.strictEqual(typesUtil.checkType('4564656', 'number'), true)
             })
@@ -28,7 +27,7 @@ describe('types util', () => {
     })
 
     describe('typeIsValid', () => {
-        describe('when typeIsValid gets a valid type (String)', () => {
+        describe('happy path', () => {
             it('should returns true', () => {
                 assert.equal(typesUtil.typeIsValid('string'), true)
             })
@@ -46,7 +45,6 @@ describe('types util', () => {
             })
         })
     })
-    
 })
 
 describe('args util', () => {
@@ -166,6 +164,20 @@ describe('files utils', () => {
 })
 
 describe('filters', () => {
+    describe('getWord', () => {
+        describe('happy path', () => {
+            it('should returns the first word', () => {
+                assert.strictEqual(getWord('Word1 Word2', { word: 0 }), 'Word1')
+            })
+        })
+
+        describe('when n is out of range', () => {
+            it('should returns an empty string', () => {
+                assert.strictEqual(getWord('Word1', {word: 1}), '')
+            })
+        })
+    })
+
     describe('trim', () => {
         describe('happy path', () => {
             it('should returns the trimmed string', () => {
