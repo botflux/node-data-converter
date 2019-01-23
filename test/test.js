@@ -3,6 +3,7 @@ const typesUtil = require('../src/util/types')
 const argsUtil = require('../src/util/args')
 const mapUtil = require('../src/util/maps')
 const { getWord } = require('../src/filters')
+const filesUtil = require('../src/util/files')
 
 describe('types util', () => {
 
@@ -113,5 +114,10 @@ describe('maps util', () => {
                 )
             })
         })
+    })
+})
+
+describe('files utils', () => {
+    describe('readCSV', () => {
     })
 })

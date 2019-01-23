@@ -1,6 +1,6 @@
 {
-  "name": "data-converter",
-  "version": "1.0.0",
+  "name": "@botflx/data-converter",
+  "version": "0.0.0",
   "description": "A data converter command line",
   "main": "app.js",
   "scripts": {
