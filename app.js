@@ -14,7 +14,7 @@ const messageBag = require('./src/messages/message-bag')
 
 const args = argsUtil.getArguments()
 
-const { inputPath, mapPath, outputPath, options = {} } = args
+const { inputPath, mapPath, outputPath, encoding = 'utf-8' } = args
 //console.log(inputPath, mapPath, outputPath, options)
 
 // TODO: Check if files exists
@@ -26,11 +26,11 @@ const map = JSON.parse(mapJson).map
 
 const { fields = [] } = map
 
-let a = []
+let buffer = []
 
 let rowIndex = 2
 
-fileUtil.readCSV(inputPath, data => {
+fileUtil.readCSV(inputPath, { encoding }, data => {
 
     let row = fields.reduce((prev, curr) => {
         const { name, columns, concatenation, afterFilters, type } = curr
@@ -91,10 +91,23 @@ fileUtil.readCSV(inputPath, data => {
         }
     }, {})
 
-    a = [...a, ...[row]]
+    buffer = [...buffer, ...[row]]
 }, () => {
-    console.log(a)
+
+    const result = {
+        [map.documentRoot]: {
+            [map.collectionRoot]: buffer
+        }
+    }
+
+    //console.log(result)
     messageBag.getMessageBag().showMessages()
+    
+
+    fileUtil.writeFile(outputPath, JSON.stringify(result, false, 2), { encoding }, (e) => {
+        if (e)
+        console.log(e)
+    })
 })
 
 
