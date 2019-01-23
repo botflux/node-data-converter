@@ -13,6 +13,23 @@ const getWord = (str, { word = 0 }) => {
     return str.split(' ')[word]
 }
 
+/**
+ * Returns the trimed string
+ * 
+ * @param {String} str String you need to trim
+ * @param {{}} param1 Options
+ */
+const trim = (str, { character = ' ' }) => {
+    if (character ===']') character = '\\]'
+    if (character === "\\") character = '\\\\'
+    
+    return str.replace(new RegExp(
+        `^[${character}]+|[${character}]+$`,
+        'g'
+    ), '')
+}
+
 module.exports = {
-    getWord
+    getWord,
+    trim
 }

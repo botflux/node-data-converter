@@ -2,7 +2,7 @@ const assert = require('assert')
 const typesUtil = require('../src/util/types')
 const argsUtil = require('../src/util/args')
 const mapUtil = require('../src/util/maps')
-const { getWord } = require('../src/filters')
+const { getWord, trim } = require('../src/filters')
 const filesUtil = require('../src/util/files')
 
 describe('types util', () => {
@@ -119,5 +119,39 @@ describe('maps util', () => {
 
 describe('files utils', () => {
     describe('readCSV', () => {
+    })
+})
+
+describe('filters', () => {
+    describe('trim', () => {
+        describe('happy path', () => {
+            it('should returns the trimmed string', () => {
+                assert.strictEqual(trim(' a string ', { character: ' ' }), 'a string')
+            })
+        })
+
+        describe('when trim a | (pipe)', () => {
+            it ('should returns the trimmed string', () => {
+                assert.strictEqual(trim('|a string|', { character: '|' }), 'a string')
+            })
+        })
+
+        describe('when trim a [', () => {
+            it('should trim', () => {
+                assert.strictEqual(trim('[a string', { character: '[' }), 'a string')
+            })
+        })
+
+        describe('when trim a ]', () => {
+            it('should trim', () => {
+                assert.strictEqual(trim(']a string', { character: ']' }), 'a string')
+            })
+        })
+
+        describe('when string doesn\'t to be trim', () => {
+            it('should not modify it', () => {
+                assert.strictEqual(trim('a string', { character: '/'}), 'a string')
+            })
+        })
     })
 })
