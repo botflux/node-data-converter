@@ -30,7 +30,13 @@ const typeIsValid = (t) => {
  * @param {String} t Type as a string
  */
 const checkType = (v, t) => {
-    return t.toLowerCase() === typeof v
+
+    t = t.toLowerCase()
+
+    // thanks to eval any types can be checked
+    if (t !== 'string') v = eval(v)
+
+    return t === typeof v
 }
 
 module.exports = {

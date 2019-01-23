@@ -7,8 +7,27 @@ const filesUtil = require('../src/util/files')
 
 describe('types util', () => {
 
-    describe('typeIsValid', () => {
+    describe('checkType', () => {
+        describe('happy path', () => {
+            it('should return true', () => {
+                assert.strictEqual(typesUtil.checkType('a string', 'string'), true)
+            })
+        })
 
+        describe('when it receive a number', () => {
+            it('should returns true', () => {
+                assert.strictEqual(typesUtil.checkType(45654, 'number'), true)
+            })
+        })
+
+        describe('whn it receive a number as a string', () => {
+            it ('should returns true', () => {
+                assert.strictEqual(typesUtil.checkType('4564656', 'number'), true)
+            })
+        })
+    })
+
+    describe('typeIsValid', () => {
         describe('when typeIsValid gets a valid type (String)', () => {
             it('should returns true', () => {
                 assert.equal(typesUtil.typeIsValid('string'), true)
@@ -26,7 +45,6 @@ describe('types util', () => {
                 assert.equal(typesUtil.typeIsValid('NotAValidType'), false)
             })
         })
-
     })
     
 })
