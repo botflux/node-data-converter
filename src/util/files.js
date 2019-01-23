@@ -3,7 +3,7 @@ const csv = require('fast-csv')
 const convert = require('xml-js')
 
 /**
- * Returns the content of the file with the specified path.
+ * Returns the content of the specified file.
  * 
  * @param {String} path The file path
  */
@@ -11,6 +11,14 @@ const getFileContent = (path) => {
     return fs.readFileSync(path)
 }
 
+/**
+ * Write a file.
+ * 
+ * @param {String} path File path
+ * @param {String} content File content
+ * @param {{}} opts Write file options
+ * @param {Function} callback When the file is wrote
+ */
 const writeFile = (path, content, opts, callback) => {
     fs.writeFile(path, content, opts, callback)
 }
@@ -37,7 +45,7 @@ const readCSV = (path, opts, operation, end = () => {}) => {
 }
 
 /**
- * Returns the extension of a file
+ * Returns the extension of a file.
  * 
  * @param {String} filename Filename
  * @returns {String} extension
@@ -50,7 +58,7 @@ const getExtension = (filename) => {
 }
 
 /**
- * Convert JSON into XML
+ * Converts JSON into XML.
  * 
  * @param {String} content JSON Content
  * @returns {String} xml

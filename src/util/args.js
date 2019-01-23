@@ -1,6 +1,6 @@
 /**
- * Returns the arguments split as an object
- *
+ * Returns the arguments split as an object.
+ * 
  * @param str
  * @returns {{}}
  */
@@ -10,9 +10,8 @@ const parseArgument = (str) => {
 }
 
 /**
- * Get command arguments
+ * Get command arguments.
  *
- * @author Victor Mendele <victor.mendele68@gmail.com>
  * @param {Object} arguments
  * @param argv
  * @returns {{}} argumentsArray
