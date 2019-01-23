@@ -95,7 +95,11 @@ fileUtil.readCSV(inputPath, { encoding }, data => {
 }, () => {
 
     const result = {
+        _declaration: {
+            _attributes: map.documentDeclaration
+        },
         [map.documentRoot]: {
+            _attributes: map.documentAttributes,
             [map.collectionRoot]: buffer
         }
     }
