@@ -102,9 +102,19 @@ fileUtil.readCSV(inputPath, { encoding }, data => {
 
     //console.log(result)
     messageBag.getMessageBag().showMessages()
-    
 
-    fileUtil.writeFile(outputPath, JSON.stringify(result, false, 2), { encoding }, (e) => {
+    const json = JSON.stringify(result, false, 2)
+
+    // get the extension of the file we can decide what conversion need to be done
+    //const extension = fileUtil.getExtension(outputPath)
+
+    /**
+     * Because I only need xml conversion, for the moment, I haven't setup any file type conversion
+     */
+
+    const xml = fileUtil.jsonToXml(json)
+
+    fileUtil.writeFile(outputPath, xml, { encoding }, (e) => {
         if (e)
         console.log(e)
     })

@@ -120,6 +120,31 @@ describe('maps util', () => {
 describe('files utils', () => {
     describe('readCSV', () => {
     })
+
+    describe('getExtension', () => {
+        describe('happy path', () => {
+            it('should returns file extension', () => {
+                assert.strictEqual(filesUtil.getExtension('filename.xml'), 'xml')
+            })
+        })
+
+        describe('filename without extension', () => {
+            it('should returns empty string', () => {
+                assert.strictEqual(filesUtil.getExtension('filename'), '')
+            })
+        })
+    })
+
+    describe('jsonToXml', () => {
+        describe('happy path', () => {
+            it('should returns the json as an xml', () => {
+                assert.strictEqual(
+                    filesUtil.jsonToXml(JSON.stringify({ hello: 'World' })),
+                    '<hello>World</hello>'
+                )
+            })
+        })
+    })
 })
 
 describe('filters', () => {

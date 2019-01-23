@@ -1,5 +1,6 @@
 const fs = require('fs')
 const csv = require('fast-csv')
+const convert = require('xml-js')
 
 /**
  * Returns the content of the file with the specified path.
@@ -35,8 +36,37 @@ const readCSV = (path, opts, operation, end = () => {}) => {
         .on('end', end)
 }
 
+/**
+ * Returns the extension of a file
+ * 
+ * @param {String} filename Filename
+ * @returns {String} extension
+ */
+const getExtension = (filename) => {
+    const split = filename.split('.').reverse()
+    const [end] = split
+
+    return (end === filename) ? '' : end
+}
+
+/**
+ * Convert JSON into XML
+ * 
+ * @param {String} content JSON Content
+ * @returns {String} xml
+ */
+const jsonToXml = (content) => {
+    return convert.json2xml(content, {
+        compact: true,
+        ignoreComment: true,
+        spaces: 4
+    })
+}
+
 module.exports = {
     getFileContent,
     readCSV,
-    writeFile
+    writeFile,
+    getExtension,
+    jsonToXml
 }
