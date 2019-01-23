@@ -1,6 +1,8 @@
 const assert = require('assert')
 const typesUtil = require('../src/util/types')
 const argsUtil = require('../src/util/args')
+const mapUtil = require('../src/util/maps')
+const { getWord } = require('../src/filters')
 
 describe('types util', () => {
 
@@ -89,5 +91,27 @@ describe('args util', () => {
         })
 
 
+    })
+})
+
+describe('maps util', () => {
+    describe('getFilter', () => {
+        describe('happy path', () => {
+            it('should returns the filter', () => {
+                assert.equal(
+                    mapUtil.getFilter('getWord'),
+                    getWord
+                )
+            })
+        })
+
+        describe('unknown filter name', () => {
+            it ('should returns undefined', () => {
+                assert.strictEqual(
+                    mapUtil.getFilter('unknownFilter'),
+                    undefined
+                )
+            })
+        })
     })
 })
