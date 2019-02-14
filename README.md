@@ -61,10 +61,14 @@ Maps are declared is a JSON file like below.
    3. It checks the type
 4. When all rows are process it converts the content into XML.
 
-## Commande 
+## How to run ?
 
-Lancer le project
+Install dependecies
+```shell
+npm i
+```
 
+Start the project
 ```shell
 node app.js inputPath=/path/to/input.csv mapPath=/path/to/map.json outputPath=/path/to/output.xml
 ```
