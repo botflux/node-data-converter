@@ -10,7 +10,7 @@ const mergeColumns = (columns, concatenation, csvRow) => columns.reduce(
 // console.log(mergeColumns(['firstName', 'lastName'], ' ', { 'firstName': 'Victor', 'lastName': 'Mendele' }))
 
 const resolveCSV = ({ fields = [], filters }) => {
-    console.log(filters)
+    // console.log(filters)
 
     return new Transform({
         objectMode: true,
@@ -30,7 +30,7 @@ const resolveCSV = ({ fields = [], filters }) => {
                         let filter = filters.find(f => f.name === cur.name)
 
                         if (filter) {
-                            return filter.process(prev, filter.args)
+                            return filter.process(prev, cur.args)
                         }
 
                         return prev

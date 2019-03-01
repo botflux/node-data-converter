@@ -41,6 +41,11 @@ createReadStream('test/input.csv')
                     .join('')
                 )
             }
+        }, {
+            name: 'getWord',
+            process (v, { word = 0 }) {
+                return v.split(' ')[word] || v
+            }
         }
     ]
 }))
