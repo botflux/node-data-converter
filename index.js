@@ -8,7 +8,7 @@ const mergeColumns = (columns, concatenation, csvRow) => columns.reduce(
 
 // console.log(mergeColumns(['firstName', 'lastName'], ' ', { 'firstName': 'Victor', 'lastName': 'Mendele' }))
 
-const resolveCSV = ({ documentRoot = 'Root', collectionRoot = 'Element', fields }) => {
+const resolveCSV = ({ fields = [] }) => {
     return new Transform({
         objectMode: true,
         transform (csvRow, encoding, callback) {
@@ -16,10 +16,11 @@ const resolveCSV = ({ documentRoot = 'Root', collectionRoot = 'Element', fields 
             // console.log(csvRow)
 
             let processedRow = fields.reduce((prev, cur) => {
-                const { name, columns = [], concatenation, afterFilters = [], type }  = cur
+                const { name, columns = [], concatenation, afterFilters = [], type, value = '' }  = cur
 
                 // if there is only one columns, we simply assign the column otherwise we merge columns with concatenation character
-                let fieldResolved = (columns.length === 1) ? csvRow[columns[0]] : mergeColumns(columns, concatenation, csvRow)
+                // if there is no columns then we use the static value field
+                let fieldResolved = (columns.length === 0) ? value : (columns.length === 1) ? csvRow[columns[0]] : mergeColumns(columns, concatenation, csvRow)
 
                 let fieldFiltered = afterFilters.reduce(
                     (prev, cur) => mapsUtil.getFilter(cur.name)(prev, cur.args), 
@@ -39,3 +40,4 @@ const resolveCSV = ({ documentRoot = 'Root', collectionRoot = 'Element', fields 
 }
 
 module.exports = resolveCSV
+module.exports.filters = require('./src/filters')

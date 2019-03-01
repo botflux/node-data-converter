@@ -1,7 +1,8 @@
 const { createReadStream } = require('fs')
 const csv = require('fast-csv')
 const resolveCSV = require('./index')
-
+const { filters } = require('./index')
+console.log(filters)
 createReadStream('test/input.csv')
 .pipe(csv({
     delimiter: ';',
