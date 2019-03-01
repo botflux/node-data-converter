@@ -23,8 +23,25 @@ createReadStream('test/input.csv')
         }, {
             name: 'LastName',
             columns: [ 'last_name' ]
+        }, {
+            name: 'ReversedFirstName',
+            columns: [ 'first_name' ],
+            afterFilters: [
+                { name: 'reverse' }
+            ]
         }
-    ]
+    ],
+    filters: {
+        reverse: {
+            call (v) {
+                return (Array
+                    .from(v)
+                    .reverse()
+                    .join('')
+                )
+            }
+        }
+    }
 }))
 .on('data', (data) => {
     console.log(data)

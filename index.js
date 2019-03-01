@@ -1,5 +1,6 @@
 const { Transform } = require('stream')
 const mapsUtil = require('./src/util/maps')
+const defaultFilters = require('./src/filters')
 
 const mergeColumns = (columns, concatenation, csvRow) => columns.reduce(
     (prev, cur, i) => `${ prev }${ i === 0 ? '': concatenation }${csvRow[cur]}`, 
@@ -8,7 +9,7 @@ const mergeColumns = (columns, concatenation, csvRow) => columns.reduce(
 
 // console.log(mergeColumns(['firstName', 'lastName'], ' ', { 'firstName': 'Victor', 'lastName': 'Mendele' }))
 
-const resolveCSV = ({ fields = [] }) => {
+const resolveCSV = ({ fields = [], filters = defaultFilters }) => {
     return new Transform({
         objectMode: true,
         transform (csvRow, encoding, callback) {
@@ -23,7 +24,7 @@ const resolveCSV = ({ fields = [] }) => {
                 let fieldResolved = (columns.length === 0) ? value : (columns.length === 1) ? csvRow[columns[0]] : mergeColumns(columns, concatenation, csvRow)
 
                 let fieldFiltered = afterFilters.reduce(
-                    (prev, cur) => mapsUtil.getFilter(cur.name)(prev, cur.args), 
+                    (prev, cur) => (filters[cur.name] ? filters[cur.name].call(prev, cur.args) : mapsUtil.getFilter(cur.name)(prev, cur.args)), 
                     fieldResolved
                 )
 
@@ -40,4 +41,4 @@ const resolveCSV = ({ fields = [] }) => {
 }
 
 module.exports = resolveCSV
-module.exports.filters = require('./src/filters')
+module.exports.filters = defaultFilters
