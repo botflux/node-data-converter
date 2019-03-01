@@ -4,14 +4,14 @@
   "description": "A data converter command line",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "test-watch": "mocha --watch",
+    "test": "jest",
+    "test-watch": "jest --watch",
     "start": "node app.js"
   },
   "author": "botflx",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "jest": "^24.1.0"
   },
   "dependencies": {
     "fast-csv": "^2.4.1",
