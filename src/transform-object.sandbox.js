@@ -1,14 +1,13 @@
 const { createReadStream } = require('fs')
 const csv = require('fast-csv')
-const resolveCSV = require('./index')
-const { filters } = require('./index')
-// console.log(filters)
+const transformObject = require('./transform-object')
+
 createReadStream('test/input.csv')
 .pipe(csv({
     delimiter: ';',
     headers: true
 }))
-.pipe(resolveCSV({
+.pipe(transformObject({
     fields: [
         {
             name: 'FullName',
