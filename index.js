@@ -1,22 +1,12 @@
 const { Transform } = require('stream')
 const mapsUtil = require('./src/util/maps')
 const defaultFilters = require('./src/filters')
-
-const mergeColumns = (columns, concatenation, csvRow) => columns.reduce(
-    (prev, cur, i) => `${ prev }${ i === 0 ? '': concatenation }${csvRow[cur]}`, 
-    ''
-)
-
-// console.log(mergeColumns(['firstName', 'lastName'], ' ', { 'firstName': 'Victor', 'lastName': 'Mendele' }))
+const mergeColumns = require('./src/merge-columns')
 
 const resolveCSV = ({ fields = [], filters }) => {
-    // console.log(filters)
-
     return new Transform({
         objectMode: true,
         transform (csvRow, encoding, callback) {
-
-            // console.log(csvRow)
 
             let processedRow = fields.reduce((prev, cur) => {
                 const { name, columns = [], concatenation, afterFilters = [], type, value = '' }  = cur
@@ -34,7 +24,7 @@ const resolveCSV = ({ fields = [], filters }) => {
                         }
 
                         return prev
-                    } /* (filters[cur.name] ? filters[cur.name].call(prev, cur.args) : mapsUtil.getFilter(cur.name)(prev, cur.args)) */, 
+                    }, 
                     fieldResolved
                 )
 
