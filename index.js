@@ -9,7 +9,9 @@ const mergeColumns = (columns, concatenation, csvRow) => columns.reduce(
 
 // console.log(mergeColumns(['firstName', 'lastName'], ' ', { 'firstName': 'Victor', 'lastName': 'Mendele' }))
 
-const resolveCSV = ({ fields = [], filters = defaultFilters }) => {
+const resolveCSV = ({ fields = [], filters }) => {
+    console.log(filters)
+
     return new Transform({
         objectMode: true,
         transform (csvRow, encoding, callback) {
@@ -24,7 +26,15 @@ const resolveCSV = ({ fields = [], filters = defaultFilters }) => {
                 let fieldResolved = (columns.length === 0) ? value : (columns.length === 1) ? csvRow[columns[0]] : mergeColumns(columns, concatenation, csvRow)
 
                 let fieldFiltered = afterFilters.reduce(
-                    (prev, cur) => (filters[cur.name] ? filters[cur.name].call(prev, cur.args) : mapsUtil.getFilter(cur.name)(prev, cur.args)), 
+                    (prev, cur) => {
+                        let filter = filters.find(f => f.name === cur.name)
+
+                        if (filter) {
+                            return filter.process(prev, filter.args)
+                        }
+
+                        return prev
+                    } /* (filters[cur.name] ? filters[cur.name].call(prev, cur.args) : mapsUtil.getFilter(cur.name)(prev, cur.args)) */, 
                     fieldResolved
                 )
 

@@ -2,7 +2,7 @@ const { createReadStream } = require('fs')
 const csv = require('fast-csv')
 const resolveCSV = require('./index')
 const { filters } = require('./index')
-console.log(filters)
+// console.log(filters)
 createReadStream('test/input.csv')
 .pipe(csv({
     delimiter: ';',
@@ -31,9 +31,10 @@ createReadStream('test/input.csv')
             ]
         }
     ],
-    filters: {
-        reverse: {
-            call (v) {
+    filters: [
+        {
+            name: 'reverse',
+            process (v) {
                 return (Array
                     .from(v)
                     .reverse()
@@ -41,7 +42,7 @@ createReadStream('test/input.csv')
                 )
             }
         }
-    }
+    ]
 }))
 .on('data', (data) => {
     console.log(data)
